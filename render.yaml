@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: golan-stora
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+    disk:
+      name: golan-stora-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
