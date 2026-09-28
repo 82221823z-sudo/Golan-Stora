@@ -4,7 +4,7 @@ const DB_DIR=process.env.DB_DIR || path.join(__dirname,'data');
 const fs=require('fs'); fs.mkdirSync(DB_DIR,{recursive:true});
 const db=new Database(path.join(DB_DIR,'golan_stora.db'));
 
-app.use(cors());app.use(express.json());app.use(express.static(path.join(__dirname,"public")));
+app.use(cors());app.use(express.json());app.use(express.static(path.join(__dirname,".")));
 db.exec(`CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,email TEXT UNIQUE NOT NULL,password_hash TEXT NOT NULL,role TEXT NOT NULL DEFAULT 'customer',created_at TEXT DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,category TEXT NOT NULL,price REAL NOT NULL,active INTEGER DEFAULT 1,created_at TEXT DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE IF NOT EXISTS digital_codes(id INTEGER PRIMARY KEY AUTOINCREMENT,product_id INTEGER NOT NULL,code TEXT UNIQUE NOT NULL,status TEXT DEFAULT 'available',order_id INTEGER,delivered_at TEXT);
@@ -109,6 +109,6 @@ app.get("/api/order/:code", (q,r)=>{
  r.json({order:o});
 });
 
-app.post("/api/admin/products",admin,(q,r)=>{let{name,category,price}=q.body||{};if(!name||!category||price===undefined)return r.status(400).json({error:"Missing fields"});let x=db.prepare("INSERT INTO products(name,category,price,active) VALUES(?,?,?,1)").run(name,category,Number(price));r.json({ok:true,id:x.lastInsertRowid})});
-app.get("*",(q,r)=>r.sendFile(path.join(__dirname,"public","index.html")));
+app.post("/api/admin/products",admin,(q,r)=>{let{name,category,price}=q.body||{};if(!name||!category||pricķe===undefined)return r.status(400).json({error:"Missing fields"});let x=db.prepare("INSERT INTO products(name,category,price,active) VALUES(?,?,?,1)").run(name,category,Number(price));r.json({ok:true,id:x.lastInsertRowid})});
+app.get("*",(q,r)=>r.sendFile(path.join(__dirname,","index.html")));
 app.listen(PORT,()=>console.log("Golan Stora running on http://localhost:"+PORT));
